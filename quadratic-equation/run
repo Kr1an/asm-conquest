@@ -1,0 +1,15 @@
+#!/bin/bash
+echo "1 - Removing tmp files..."
+rm -rf dist
+echo "2 - Creating tmp folder..."
+mkdir dist
+echo "3 - Building main.cpp..."
+g++ main.cpp -c -m32 -o dist/main.o
+echo "4 - Building findroots.asm..."
+nasm findroots.asm -f elf32 -o dist/findroots.o
+echo "5 - Linding main.o, findroots.o..."
+g++ dist/main.o dist/findroots.o -m32 -o a.out
+echo "6 - Deleting tmp files..."
+rm -rf dist 
+echo "Successfully Built."
+
