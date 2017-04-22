@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-extern "C" {int findconvergence(double, double, double, double);}
+extern "C" {int findconvergence(double, double, double, double, double *);}
 
 int main()
 {
@@ -8,6 +8,7 @@ int main()
 	double b = 0;
 	double h = 0;
 	double e = 0;
+	double t = 0;
 
 	printf("\tCalculate convergation: interval - [a, b], step - h, accuracy - e\n");	
 	printf("Enter a: ");
@@ -19,7 +20,8 @@ int main()
 	printf("Enter e: ");
 	scanf("%lf", &e);	
 	
-	findconvergence(a, b, h, e);	
+	findconvergence(a, b, h, e, &t);
+	printf("\nTest Value: %lf\n", t);
 
 	return 0;
 } 
