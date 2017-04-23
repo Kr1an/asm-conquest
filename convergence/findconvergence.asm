@@ -1,3 +1,11 @@
+%macro testmacro 0
+	mov eax, 4
+	mov ebx, 1
+	mov ecx, testmsg
+	mov edx, testmsg_len
+	int 80h
+%endmacro
+
 %define a		qword [ebp+8]
 %define b		qword [ebp+16]
 %define h 		qword [ebp+24]
@@ -5,12 +13,15 @@
 %define t		dword [ebp+40]
 
 	global findconvergence
-section .data
+	section .data
+	testd: dd 2.2
 	testmsg: db "loop iteration", 10
+	floatmsg: db "%f iteration", 10, 0
 	testmsg_len: equ $-testmsg
 	testp: dq 2.0
 	testv: dq 3.0
-section .bss
+	stepcount: dq 0.0
+	section .bss
 	position: resq 1
 	argument: resq 1
 	functionvalue: resq 1
@@ -18,21 +29,66 @@ section .bss
 	tmpvalue: resq 1
 	count: resq 1
 	trash: resq 1
+	step: resq 1
+	start: resq 1
+	end: resq 1
+	accuracy: resq 1
 	
-section .text
+	section .text
+	extern printf
 findconvergence:
 	push ebp
 	mov ebp, esp
 
-	
-	fld qword [testv]
-	fstp qword [argument]
-	fld qword [testp]
-	fstp qword [position]
-	call findsequencemembervalue
+	fld h
+	fstp qword [step]
 
+	fld a
+	fstp qword [start]
+
+	fld b
+	fstp qword [end]
+
+	fld e
+	fstp qword [accuracy]
+	
+stepsloop:
+	
+	fld qword [stepcount]
+	fld qword [step]
+	fmulp st1, st0
+	fld qword [start]
+	faddp st1, st0
+	fld qword [end]
+	fsubp st1, st0
+	ftst
+	fstsw ax
+	sahf
+	ja calculationsdone
+
+	call findargument
+
+convergenceloop:
+
+	
+	
+	;jmp convergenceloop
+	
+	testmacro 
+	
+	
+	jmp stepsloop
+
+calculationsdone:
+	
+;	fld qword [testv]
+;	fstp qword [argument]
+;	fld qword [testp]
+;	fstp qword [position]
+;	call findsequencemembervalue
+;
 	mov ebx, t
-	fld qword [sequencemembervalue]
+	fld qword [argument]
 	fstp qword [ebx]
 	
 	mov eax, 1	
@@ -110,6 +166,26 @@ findroot:
 	fmulp st1, st0	
 	fstp qword [sequencemembervalue]
 	pop ecx
+	mov esp, ebp
+	pop ebp
+	ret
+
+findargument:
+	push ebp
+	mov ebp, esp
+
+	fld qword [stepcount]
+	fld qword [step]
+	fmulp st1, st0
+	fld qword [start]
+	faddp st1, st0
+	fstp qword [argument]
+	
+	fld qword [stepcount]
+	fld1
+	faddp st1, st0
+	fstp qword [stepcount]
+
 	mov esp, ebp
 	pop ebp
 	ret
