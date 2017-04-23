@@ -7,34 +7,64 @@
 	global findconvergence
 section .data
 	testv: dq 12.2
+section .bss
+	argument: resq 1
+	functionvalue: resq 1
+	sequencevalue: resq 1
+	
 section .text
 findconvergence:
 	push ebp
 	mov ebp, esp
 
-	mov ebx, t
-	fld qword [testv]
-	fstp qword [ebx]
-	jmp quit
-;	jmp findfunctionvalue
 	
+	fld qword [testv]
+	fstp qword [argument]
+	call findfunctionvalue
+
+	mov ebx, t
+	fld qword [functionvalue]
+	fstp qword [ebx]
+	
+	mov eax, 1	
+	
+	mov esp, ebp
+	pop ebp
+	ret
+	
+	
+
 findfunctionvalue:
 ;Arguments:
-;	eax: 'x' argument of the function
+;	argument: value of x: should be qword
 ;Returns:
-;	eax: function of x argument
+;	functionvalue: value of Y(x), qword value
+	push ebp
+	mov ebp, esp
 
+	fldln2
+	fld qword [argument]
+	fyl2x
 	fld1
-	;fldln2
-	;fild qword [eax]
-	;fyl2x
-	
-	mov ebx, t
-	fstp qword [ebx]
+	fld1
+	faddp st1, st0
+	fdivp st1, st0	
 
-	mov eax, 1
-		
-quit:
+	fstp qword [functionvalue]
+	
+	mov esp, ebp
+	pop ebp
+	ret
+
+findsequencevalue:
+;Arguments:
+;	argument: value of x: should be qword
+;Returns:
+;	sequencevalue: value of S(x), qword value
+	push ebp
+	mov ebp, esp
+
+
 	mov esp, ebp
 	pop ebp
 	ret
