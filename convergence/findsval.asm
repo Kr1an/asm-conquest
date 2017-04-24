@@ -37,56 +37,51 @@ findsval:
 	
 converg:
 
-	fld qword [testv]
-	fild qword [cnt]
-	fmulp st1, st0
-	fstp qword [sval]
-	
-;	fld qword [arg]
-;	fld1
-;	fsubp st1, st0
-;
-;	fld qword [arg]
-;	fld1
-;	faddp st1, st0
-;
-;	fdivp st1, st0
+	fld qword [arg]
+	fld1
+	fsubp st1, st0
 
-;	fild qword [cnt]
-;	fild qword [cnt]
-;	faddp st1, st0
-;	fld1
-;	faddp st1, st0
-;
-;	fistp qword [i]
-;	mov ecx, [i]
-;	
-;	fstp qword [tmpv]
-;	fld1
-;powloop:
-;	fld qword [tmpv]
-;	fmulp st1, st0
-;	loop powloop
-;
-;	fld1
-;	
-;	fild qword [cnt]
-;	fld1
-;	fld1
-;	faddp st1, st0
-;	fmulp st1, st0
-;
-;	fld1
-;	faddp st1, st0
-;
-;	fdivp st1, st0
-;
-;	fmulp st1, st0
-;
-;	fld qword [sval]
-;	faddp st1, st0
-;
-;	fstp qword [sval]
+	fld qword [arg]
+	fld1
+	faddp st1, st0
+
+	fdivp st1, st0
+
+	fild qword [cnt]
+	fild qword [cnt]
+	faddp st1, st0
+	fld1
+	faddp st1, st0
+
+	fistp qword [i]
+	mov ecx, [i]
+	
+	fstp qword [tmpv]
+	fld1
+powloop:
+	fld qword [tmpv]
+	fmulp st1, st0
+	loop powloop
+
+	fld1
+	
+	fild qword [cnt]
+	fld1
+	fld1
+	faddp st1, st0
+	fmulp st1, st0
+
+	fld1
+	faddp st1, st0
+
+	fdivp st1, st0
+
+	fmulp st1, st0
+
+	fld qword [sval]
+	faddp st1, st0
+
+	fstp qword [sval]
 assert:
 	fld qword [fval]
 	fld qword [sval]
@@ -94,9 +89,7 @@ assert:
 	fabs
 	fld qword [eps]
 	fsubp st1, st0
-	;jmp exit
 	
-
 	ftst
 	fstsw ax
 	sahf
@@ -108,7 +101,6 @@ inc:
 	fld1
 	faddp st1, st0
 	fistp qword [cnt]
-
 	jmp converg
 found:
 	mov eax, sval_def
@@ -120,4 +112,3 @@ exit:
 	mov esp, ebp
 	pop ebp
 	ret
-	
