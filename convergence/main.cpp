@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-extern "C" {int findconvergence(double, double, double, double, double *);}
+extern "C" int findfval(double, double*);
+
 
 int main()
 {
@@ -19,9 +20,14 @@ int main()
 	scanf("%lf", &h);
 	printf("Enter e: ");
 	scanf("%lf", &e);	
+
+	for(double x = a; x <= b; x += h)
+	{
+		double fval;
+		findfval(x, &fval);
+		printf("| x: %lf\t| F: %lf\t| fval: %lf\t|\n", x, fval, 0.0);
 	
-	findconvergence(a, b, h, e, &t);
-	printf("\nTest Value: %lf\n", t);
+	}	
 
 	return 0;
 } 
