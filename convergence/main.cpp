@@ -31,7 +31,7 @@ int main()
 		sval = 0;
 		findfval(x, &fval);
 		seqmembcnt = findsval(x, fval, e, &sval);
-		printf("| x: %lf\t| F: %lf\t| S: %lf\t| n: %d\t\n", x, fval, sval, seqmembcnt);
+		printf("| x: %lf\t| F: %lf\t| S: %lf\t| n: %d\t|\n", x, fval, sval, seqmembcnt);
 	}	
 
 	return 0;
