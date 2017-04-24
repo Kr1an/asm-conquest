@@ -1,0 +1,15 @@
+#!/bin/bash
+echo "1 - Removing tmp files..."
+rm -rf dist
+echo "2 - Creating tmp folder..."
+mkdir dist
+echo "4 - Building mul.asm..."
+nasm mul.asm -f elf64 -o dist/mul.o
+echo "5 - Buildint sum.asm..."
+nasm sum.asm -f elf64 -o dist/sum.o
+echo "5 - Linding main.o, mul.o..."
+g++ main.cpp dist/sum.o dist/mul.o -o a.out
+echo "6 - Deleting tmp files..."
+rm -rf dist 
+echo "Successfully Built."
+
