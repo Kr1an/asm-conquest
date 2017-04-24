@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-extern "C" int findfval(double, double*);
-
+extern "C" void	findfval(double, double*);
+extern "C" int	findsval(double, double, double,  double*);
 
 int main()
 {
@@ -23,10 +23,12 @@ int main()
 
 	for(double x = a; x <= b; x += h)
 	{
+		int seqmembcnt;
 		double fval;
+		double sval;
 		findfval(x, &fval);
-		printf("| x: %lf\t| F: %lf\t| fval: %lf\t|\n", x, fval, 0.0);
-	
+		seqmembcnt = findsval(x, fval, e, &sval);
+		printf("| x: %lf\t| F: %lf\t| S: %lf\t| n: %d\t\n", x, fval, sval, seqmembcnt);
 	}	
 
 	return 0;
